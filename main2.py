@@ -6,9 +6,9 @@ from torchvision import transforms
 from tqdm import tqdm
 
 from dataset import CropSegmentationDataset
-from model3 import DeepLabV3Plus
+from model import DeepLabV3Plus
 from losses import PixelWiseCrossEntropy
-from trainer2 import BaselineTrainer
+from trainer import BaselineTrainer
 
 
 warnings.simplefilter("ignore")
