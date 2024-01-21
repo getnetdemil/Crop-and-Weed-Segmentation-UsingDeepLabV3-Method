@@ -9,7 +9,8 @@ import torch.nn.functional as F
 import PIL
 
 class CropSegmentationDataset(Dataset):
-    ROOT_PATH: str = ".\project-dataset"
+    # ROOT_PATH: str = ".\project-dataset"
+    ROOT_PATH: str = "/net/ens/am4ip/datasets/project-dataset"
     id2cls: dict = {0: "background",
                     1: "crop",
                     2: "weed",
@@ -48,40 +49,7 @@ class CropSegmentationDataset(Dataset):
     def __len__(self):
         return len(self.images)
 
-    # def __getitem__(self, index: int):
-    #     try:
-    #         input_img = Image.open(self.images[index], "r")
-    #         target = Image.open(self.labels[index], "r")
-
-    #         if self.transform is not None:
-    #             input_img = self.transform(input_img)
-
-    #         if self.target_transform is not None:
-    #             target = self.target_transform(target)
-    #         # Convert PIL Images to NumPy arrays for modification
-    #         target_np = np.array(target, dtype=np.uint8)  # Ensure the data type is uint8
-    #         if self.merge_small_items:
-    #             target_np[target_np == self.cls2id["partial-crop"]] = self.cls2id["crop"]
-    #             target_np[target_np == self.cls2id["partial-weed"]] = self.cls2id["weed"]
-    #         elif self.remove_small_items:
-    #             target_np[target_np == self.cls2id["partial-crop"]] = self.cls2id["background"]
-    #             target_np[target_np == self.cls2id["partial-weed"]] = self.cls2id["background"]
-    #         # Convert NumPy array back to PIL Image
-    #         torch_tensor = torch.from_numpy(target_np).squeeze(0)
-    #         # Get unique elements and their counts
-    #         target_indices = torch.tensor([cls for cls in torch_tensor.flatten().numpy()], dtype=torch.long)
-    #         target_indices = target_indices.view(torch_tensor.shape)
-    #         # target_one_hot = F.one_hot(target_indices, num_classes=3).permute(2, 0, 1).float()
-    #         target_one_hot = F.one_hot(target_indices, num_classes=5).permute(2, 0, 1).float()
-            
-    #         return input_img, target_one_hot
-    #     except PIL.UnidentifiedImageError as e:
-    #         print(f"Error opening image file at index {index}: {e}")
-    #         # You can choose to return a default image or skip this sample
-    #         return self.__getitem__((index + 1) % len(self))
-
-    #     except IndexError:
-    #         return self.__getitem__((index + 1) % len(self))
+    
     def __getitem__(self, index: int):
         try:
             input_img = Image.open(self.images[index], "r")
@@ -105,16 +73,6 @@ class CropSegmentationDataset(Dataset):
 
             # Convert NumPy array back to PIL Image
             target_tensor = torch.from_numpy(target_np).squeeze(0)
-            
-            # Convert NumPy array back to PIL Image
-            # target_pil = Image.fromarray(target_np.astype(np.uint8))
-
-            # # Convert PIL Image to PyTorch tensor and add channel dimension
-            # target_tensor = torch.unsqueeze(torch.from_numpy(np.array(target_pil)), 0)
-
-            #########
-            # target_tensor = target_tensor.expand(5, -1, -1)
-
 
             return input_img, target_tensor
         except PIL.UnidentifiedImageError as e:
