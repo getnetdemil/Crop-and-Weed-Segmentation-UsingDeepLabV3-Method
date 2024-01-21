@@ -68,7 +68,7 @@ def main():
         use_cuda=False
     )
 
-    train_loss = trainer.fit(train_data_loader=train_dataloader, val_data_loader=val_dataloader, epoch=2)
+    train_loss = trainer.fit(train_data_loader=train_dataloader, val_data_loader=val_dataloader, epoch=20)
 
     trainer.save_results(val_data_loader=val_dataloader)
     # Save the trained model weights
