@@ -71,9 +71,10 @@ def main():
     train_loss = trainer.fit(train_data_loader=train_dataloader, val_data_loader=val_dataloader, epoch=2)
 
     trainer.save_results(val_data_loader=val_dataloader)
+    # Save the trained model weights
+    torch.save(model.state_dict(), './modified_weight.pth')
 
     print(f"Training loss is: {train_loss},")
-
 
 
 
