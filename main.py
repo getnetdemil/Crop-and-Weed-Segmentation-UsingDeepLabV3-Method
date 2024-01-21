@@ -55,7 +55,7 @@ def main():
     val_dataloader = DataLoader(val_dataset, batch_size=16, shuffle=False)
 
     # Create model instance
-    model = DeepLabV3Plus(num_classes=5)  # Adjust num_classes based on your dataset
+    model = DeepLabV3Plus(num_classes=3)  # Adjust num_classes based on your dataset
 
     loss = PixelWiseCrossEntropy()
 
